@@ -4,6 +4,8 @@
 import decimal
 import os
 
+from datetime import datetime
+
 from m3u8.mixins import BasePathMixin, GroupedBasePathMixin
 from m3u8.parser import format_date_time, parse
 from m3u8.protocol import (
@@ -1472,10 +1474,14 @@ class DateRange:
         # https://tools.ietf.org/html/rfc8216#section-8.10), and also by
         # real-world implementations, so we make it optional here
         if self.start_date:
+            if isinstance(self.start_date, datetime):
+                self.start_date = format_date_time(self.start_date)
             daterange.append("START-DATE=" + quoted(self.start_date))
         if self.class_:
             daterange.append("CLASS=" + quoted(self.class_))
         if self.end_date:
+            if isinstance(self.end_date, datetime):
+                self.end_date = format_date_time(self.end_date)
             daterange.append("END-DATE=" + quoted(self.end_date))
         if self.duration:
             daterange.append("DURATION=" + number_to_string(self.duration))
