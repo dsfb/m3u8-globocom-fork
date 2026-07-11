@@ -1544,7 +1544,9 @@ def test_daterange_datetime_iso8601_t_separator_start_date():
     playlist.playlist_type = "VOD"
 
     segment = m3u8.Segment(uri="segment_0.ts", duration=8.0, title="")
-    segment.program_date_time = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
+    segment.program_date_time = datetime.datetime(
+        1970, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc
+    )
     playlist.segments.append(segment)
 
     start_date_dt = datetime.datetime(1970, 1, 1, 0, 0, 8, tzinfo=datetime.timezone.utc)
@@ -1554,7 +1556,10 @@ def test_daterange_datetime_iso8601_t_separator_start_date():
 
     dumped = playlist.dumps(timespec="seconds")
     dumped_str = str(dumped)
-    assert 'EXT-X-DATERANGE:ID="repro",START-DATE="1970-01-01T00:00:08+00:00",DURATION=16' in dumped_str
+    assert (
+        'EXT-X-DATERANGE:ID="repro",START-DATE="1970-01-01T00:00:08+00:00",DURATION=16'
+        in dumped_str
+    )
 
 
 def test_daterange_in_parts():
